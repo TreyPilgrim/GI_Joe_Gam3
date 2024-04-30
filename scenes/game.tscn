@@ -1,0 +1,121 @@
+[gd_scene load_steps=14 format=3 uid="uid://dhxum7wlevj6a"]
+
+[ext_resource type="PackedScene" uid="uid://b6qwrpwioay47" path="res://scenes/player.tscn" id="1_j5qib"]
+[ext_resource type="Script" path="res://scripts/game.gd" id="1_qqn5d"]
+[ext_resource type="PackedScene" uid="uid://cgjrjloftpvoo" path="res://scenes/game_over_screen.tscn" id="3_g305j"]
+[ext_resource type="PackedScene" uid="uid://cfj8huxiv0a31" path="res://scenes/asteroid.tscn" id="3_gf4t8"]
+[ext_resource type="PackedScene" uid="uid://uowaufhj6f4l" path="res://scenes/hud.tscn" id="4_lv1p0"]
+[ext_resource type="PackedScene" uid="uid://ca6i7r7035tta" path="res://scenes/player_spawn_area.tscn" id="6_x26iw"]
+[ext_resource type="AudioStream" uid="uid://carmgfpptiej3" path="res://assets/Bonus/sfx_laser1.ogg" id="7_xt6b4"]
+[ext_resource type="AudioStream" uid="uid://dmmjxiyo7benv" path="res://assets/Bonus/rock-destroy-6409.mp3" id="8_gfvcp"]
+[ext_resource type="AudioStream" uid="uid://biixavebcxjp7" path="res://assets/Bonus/windy-thud-192374.mp3" id="9_0ftxb"]
+
+[sub_resource type="CurveXYZTexture" id="CurveXYZTexture_0f6tp"]
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_fuxoh"]
+particle_flag_disable_z = true
+emission_shape = 3
+emission_box_extents = Vector3(1, 360, 1)
+spread = 0.0
+directional_velocity_min = -10.0
+directional_velocity_max = -10.0
+directional_velocity_curve = SubResource("CurveXYZTexture_0f6tp")
+gravity = Vector3(0, 0, 0)
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_53ts5"]
+particle_flag_disable_z = true
+emission_shape = 3
+emission_box_extents = Vector3(1, 360, 1)
+spread = 0.0
+directional_velocity_min = -20.0
+directional_velocity_max = -20.0
+directional_velocity_curve = SubResource("CurveXYZTexture_0f6tp")
+gravity = Vector3(0, 0, 0)
+scale_min = 3.0
+scale_max = 3.0
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_r3ddv"]
+particle_flag_disable_z = true
+emission_shape = 3
+emission_box_extents = Vector3(1, 360, 1)
+spread = 0.0
+directional_velocity_min = -30.0
+directional_velocity_max = -30.0
+directional_velocity_curve = SubResource("CurveXYZTexture_0f6tp")
+gravity = Vector3(0, 0, 0)
+scale_min = 3.0
+scale_max = 3.0
+
+[node name="Game" type="Node2D"]
+script = ExtResource("1_qqn5d")
+
+[node name="BackgroundStarFields" type="Node2D" parent="."]
+
+[node name="StarFieldBack" type="GPUParticles2D" parent="BackgroundStarFields"]
+z_index = -100
+position = Vector2(1200, 360)
+amount = 1000
+process_material = SubResource("ParticleProcessMaterial_fuxoh")
+lifetime = 140.0
+preprocess = 280.0
+
+[node name="StarFieldMiddle" type="GPUParticles2D" parent="BackgroundStarFields"]
+z_index = -95
+position = Vector2(1200, 360)
+amount = 250
+process_material = SubResource("ParticleProcessMaterial_53ts5")
+lifetime = 140.0
+preprocess = 280.0
+
+[node name="StarFieldFront" type="GPUParticles2D" parent="BackgroundStarFields"]
+z_index = -90
+position = Vector2(1200, 360)
+scale = Vector2(5, 5)
+amount = 35
+process_material = SubResource("ParticleProcessMaterial_r3ddv")
+lifetime = 140.0
+preprocess = 280.0
+
+[node name="UI" type="CanvasLayer" parent="."]
+
+[node name="HUD" parent="UI" instance=ExtResource("4_lv1p0")]
+
+[node name="GameOverScreen" parent="UI" instance=ExtResource("3_g305j")]
+visible = false
+
+[node name="Player" parent="." instance=ExtResource("1_j5qib")]
+position = Vector2(640, 360)
+
+[node name="Lasers" type="Node" parent="."]
+
+[node name="Asteroids" type="Node" parent="."]
+
+[node name="Asteroid" parent="Asteroids" instance=ExtResource("3_gf4t8")]
+position = Vector2(153, 81)
+
+[node name="Asteroid2" parent="Asteroids" instance=ExtResource("3_gf4t8")]
+position = Vector2(951, 136)
+
+[node name="Asteroid3" parent="Asteroids" instance=ExtResource("3_gf4t8")]
+position = Vector2(310, 502)
+
+[node name="Asteroid4" parent="Asteroids" instance=ExtResource("3_gf4t8")]
+position = Vector2(426, 91)
+
+[node name="Asteroid5" parent="Asteroids" instance=ExtResource("3_gf4t8")]
+position = Vector2(964, 585)
+
+[node name="PlayerSpawnPos" type="Node2D" parent="."]
+position = Vector2(640, 360)
+
+[node name="PlayerSpawnArea" parent="PlayerSpawnPos" instance=ExtResource("6_x26iw")]
+
+[node name="LaserSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("7_xt6b4")
+
+[node name="AsteroidHitSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("8_gfvcp")
+volume_db = -20.813
+
+[node name="PlayerDieSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("9_0ftxb")

@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=3 uid="uid://d2eh1jykb7s70"]
+
+[ext_resource type="Texture2D" uid="uid://bwcm5pvvddon8" path="res://assets/PNG/Player/GREEN/small_2.png" id="1_p5i6r"]
+
+[node name="UILife" type="TextureRect"]
+offset_left = 8.0
+offset_top = 48.0
+offset_right = 520.0
+offset_bottom = 560.0
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("1_p5i6r")
